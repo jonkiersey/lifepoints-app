@@ -1,0 +1,1 @@
+export const SAVE_LIFEPOINT = 'SAVE_LIFEPOINT';
