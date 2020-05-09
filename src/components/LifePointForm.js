@@ -19,7 +19,6 @@ class LifePointForm extends React.Component {
   };
 
   handleTextChange = (event) => {
-    console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -27,8 +26,7 @@ class LifePointForm extends React.Component {
     this.setState({ category: selectedOption.value });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = () => {
     const data = {
         name: this.state.name,
         description: this.state.description,
@@ -41,7 +39,7 @@ class LifePointForm extends React.Component {
 
   render = () => {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         <div>
           <label>
             Name:
@@ -75,8 +73,10 @@ class LifePointForm extends React.Component {
             <input name='points' type='number' value={this.state.points} onChange={this.handleTextChange} />
           </label>
         </div>
-        <input type='submit' value='Submit' />
-      </form>
+        <button onClick={this.handleSubmit}>
+          Save LifePoint
+        </button>
+      </div>
     )
   }
 }
