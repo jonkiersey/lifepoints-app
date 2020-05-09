@@ -85,10 +85,8 @@ const mapStateToProps = (state) => {
     return { store: state.lifepoint }; 
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveLifePoint: (data) => dispatch(saveLifePoint(data))
-  };
+const mapDispatchToProps = {
+  saveLifePoint
 };
 
 export default connect(
