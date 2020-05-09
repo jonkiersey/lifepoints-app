@@ -13,6 +13,9 @@ class LifePointForm extends React.Component {
       category: null,
       points: 1
     };
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   handleTextChange = (event) => {
@@ -24,7 +27,8 @@ class LifePointForm extends React.Component {
     this.setState({ category: selectedOption.value });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const data = {
         name: this.state.name,
         description: this.state.description,
@@ -33,7 +37,6 @@ class LifePointForm extends React.Component {
     };
     this.props.saveLifePoint(data);
     this.setState({ name: '', description: '', category: null, points: 1 });
-    // event.preventDefault();
   };
 
   render = () => {
@@ -79,11 +82,13 @@ class LifePointForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { store: state }; 
+    return { store: state.lifepoint }; 
 }
 
-const mapDispatchToProps = {
-  saveLifePoint
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveLifePoint: (data) => dispatch(saveLifePoint(data))
+  };
 };
 
 export default connect(
