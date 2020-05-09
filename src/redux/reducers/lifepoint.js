@@ -4,14 +4,12 @@ const initialState = {
     lifepoint: {}
 };
 
-const lifepoint = (state = initialState, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case SAVE_LIFEPOINT:
-            console.log('save lifepoint', action);
+            console.log('save lifepoint', action.data);
             return { ...state, lifepoint: action.data };
         default:
             return state;
     }
 }
-
-export default lifepoint;
