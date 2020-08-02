@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { FirebaseContext } from '../Firebase';
- 
-const Home = () => (
-    <FirebaseContext.Consumer>
-        {firebase => {
-            return <div>I've access to Firebase and render Home.</div>;
-        }}
-    </FirebaseContext.Consumer>
+import LifePointForm from './LifePointForm';
+import { withAuthorization } from '../Session';
+
+const HomePage = () => (
+  <div>
+    <h1>Home Page</h1>
+    <p>The Home Page is accessible by every signed in user.</p>
+    <LifePointForm />
+  </div>
 );
+
+const condition = authUser => !!authUser;
  
-export default Home;
+export default withAuthorization(condition)(HomePage);

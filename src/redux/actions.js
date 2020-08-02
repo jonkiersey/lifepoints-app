@@ -6,7 +6,7 @@ export const saveLifePoint = (data) => {
     return async (dispatch) => {
         console.log('attempted to save lifepoint');
         const response = await axios.put('https://s0ca9ntqik.execute-api.us-east-1.amazonaws.com/test/lifepoints', {
-            userId: 'jon',
+            userId: data.userId,
             category: data.category,
             points: data.points,
             name: data.name,
