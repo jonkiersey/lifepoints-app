@@ -1,6 +1,7 @@
 import React from 'react';
 
 import LifePointForm from './LifePointForm';
+import UserLifePoints from './UserLifePoints';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
@@ -8,6 +9,7 @@ const HomePage = () => (
     <h1>Home Page</h1>
     <p>The Home Page is accessible by every signed in user.</p>
     <LifePointForm />
+    <UserLifePoints />
   </div>
 );
 
