@@ -1,5 +1,4 @@
 import React from 'react';
-import Select from 'react-select';
 import { connect } from 'react-redux';
 
 import { AuthUserContext } from '../Session';
@@ -11,29 +10,24 @@ class LifePointForm extends React.Component {
     this.state = {
       name: '',
       description: '',
-      category: null,
+      category: '',
       points: 1
     };
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-  handleTextChange = (event) => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleSelectChange = (selectedOption) => {
-    this.setState({ category: selectedOption.value });
   };
 
   handleSubmit = (authUser) => {
     const data = {
-        userId: authUser.uid,
-        name: this.state.name,
-        description: this.state.description,
-        category: this.state.category,
-        points: this.state.points
+      userId: authUser.uid,
+      name: this.state.name,
+      description: this.state.description,
+      category: this.state.category,
+      points: this.state.points
     };
     this.props.saveLifePoint(data);
     this.setState({ name: '', description: '', category: null, points: 1 });
@@ -43,43 +37,43 @@ class LifePointForm extends React.Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <div>
-            <div>
-              <label>
+          <div className="container">
+            <h1 className="text-primary mb-4">Record a new LifePoint</h1>
+            <div className="row m-2">
+              <div className="col">
                 Name:
-              <input name='name' type='text' value={this.state.name} onChange={this.handleTextChange} />
-              </label>
+              </div>
+              <input name='name' type='text' value={this.state.name} onChange={this.handleChange} className="col-8" />
             </div>
-            <div>
-              <label>
+            <div className="row m-2">
+              <div className="col">
                 Description:
-              <input name='description' type='text' value={this.state.description} onChange={this.handleTextChange} />
-              </label>
+              </div>
+              <input name='description' type='text' value={this.state.description} onChange={this.handleChange} className="col-8" />
             </div>
-            <div>
-              <label>
+            <div className="row m-2">
+              <div className="col">
                 Category:
-              <Select
-                  onChange={this.handleSelectChange}
-                  options={[
-                    { value: 'EXERCISE', label: 'Exercise' },
-                    { value: 'HOUSEHOLD', label: 'Household' },
-                    { value: 'SOCIAL', label: 'Social' },
-                    { value: 'PERSONAL_DEVELOPMENT', label: 'Personal Development' },
-                    { value: 'RELATIONSHIP', label: 'Relationship' },
-                  ]}
-                />
-              </label>
+              </div>
+              <select name='category' value={this.state.category} onChange={this.handleChange} className="dropdown col-8">
+                  <option value="EXERCISE">Exercise</option>
+                  <option value="HOUSEHOLD">Household</option>
+                  <option value="SOCIAL">Social</option>
+                  <option value="PERSONAL_DEVELOPMENT">Personal Development</option>
+                  <option value="RELATIONSHIP">Relationship</option>
+                </select>
             </div>
-            <div>
-              <label>
+            <div className="row m-2">
+              <div className="col">
                 Points:
-              <input name='points' type='number' value={this.state.points} onChange={this.handleTextChange} />
-              </label>
+              </div>
+              <input name='points' type='number' value={this.state.points} onChange={this.handleChange} className="col-8" />
             </div>
-            <button onClick={() => this.handleSubmit(authUser)}>
-              Save LifePoint
-            </button>
+            <div className="row mt-4">
+              <button onClick={() => this.handleSubmit(authUser)} className="btn btn-primary col-12">
+                Save LifePoint
+              </button>
+            </div>
           </div>
         )}
       </AuthUserContext.Consumer>
@@ -88,7 +82,7 @@ class LifePointForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { store: state.lifepoint }; 
+  return { store: state.lifepoint };
 }
 
 const mapDispatchToProps = {
@@ -96,6 +90,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(LifePointForm);

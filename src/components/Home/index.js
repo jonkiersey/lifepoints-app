@@ -5,14 +5,18 @@ import UserLifePoints from './UserLifePoints';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
-  <div>
-    <h1>Home Page</h1>
-    <p>The Home Page is accessible by every signed in user.</p>
-    <LifePointForm />
-    <UserLifePoints />
+  <div className="container m-2">
+    <div className="row">
+      <div className="col">
+        <LifePointForm />
+      </div>
+      <div className="col">
+        <UserLifePoints />
+      </div>
+    </div>
   </div>
 );
 
 const condition = authUser => !!authUser;
- 
+
 export default withAuthorization(condition)(HomePage);

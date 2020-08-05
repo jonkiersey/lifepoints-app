@@ -5,6 +5,17 @@ import moment from 'moment';
 import { AuthUserContext } from '../Session';
 import { getUserLifePoints } from '../../redux/actions';
 
+const getPrettyCategory = (category) => {
+  const mapping = {
+    PERSONAL_DEVELOPMENT: 'Personal Development',
+    EXERCISE: 'Exercise',
+    HOUSEHOLD: 'Household',
+    SOCIAL: 'Social',
+    RELATIONSHIP: 'Relationship'
+  }
+  return mapping[category];
+}
+
 class UserLifePoints extends React.Component {
   constructor(props) {
     super(props);
@@ -22,18 +33,20 @@ class UserLifePoints extends React.Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <div>
-            <button onClick={() => this.handleGetUserLifePoints(authUser)}>
-              Get User LifePoints
-            </button>
-            <table>
+          <div className="container mt-2">
+            <div className="row">
+              <button onClick={() => this.handleGetUserLifePoints(authUser)} className="btn btn-primary col-12">
+                Get User LifePoints
+              </button>
+            </div>
+            <table className="table">
               {this.props.userLifePoints.map((row) => (
                 <tr>
-                  <td>{moment(row.datetime).format()}</td>
+                  <td>{moment(row.datetime).format('MMM/DD')}</td>
                   <td>{row.name}</td>
                   <td>{row.description}</td>
-                  <td>{row.category}</td>
-                  <td>{row.points}</td>
+                  <td>{getPrettyCategory(row.category)}</td>
+                  <td><b>{row.points}</b></td>
                 </tr>
               ))}
             </table>

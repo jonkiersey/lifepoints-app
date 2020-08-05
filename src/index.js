@@ -10,11 +10,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 
 render(
-  <FirebaseContext.Provider value={new Firebase()}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </FirebaseContext.Provider>,
+  <div>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+      integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX"
+      crossOrigin="anonymous"
+    />
+    <FirebaseContext.Provider value={new Firebase()}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </FirebaseContext.Provider>
+  </div>
+  ,
   document.getElementById('root')
 );
 

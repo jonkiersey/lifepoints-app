@@ -7,6 +7,7 @@ import { AuthUserContext } from '../Session';
 
 const Navigation = () => (
   <div>
+    <h1 className="bg-dark text-light"><div className="m-2">LifePoints</div></h1>
     <AuthUserContext.Consumer>
       {authUser =>
         authUser ? <NavigationAuth /> : <NavigationNonAuth />}
@@ -15,29 +16,29 @@ const Navigation = () => (
 );
 
 const NavigationAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
+  <ul className="nav justify-content-center">
+    <li className="nav-item">
+      <Link to={ROUTES.LANDING} className="nav-link">Landing</Link>
     </li>
-    <li>
-      <Link to={ROUTES.HOME}>Home</Link>
+    <li className="nav-item">
+      <Link to={ROUTES.HOME} className="nav-link">Home</Link>
     </li>
-    <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
+    <li className="nav-item">
+      <Link to={ROUTES.ACCOUNT} className="nav-link">Account</Link>
     </li>
-    <li>
+    <li className="nav-item"> 
       <SignOutButton />
     </li>
   </ul>
 );
 
 const NavigationNonAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
+  <ul className="nav justify-content-center">
+    <li className="nav-item">
+      <Link to={ROUTES.LANDING} className="nav-link">Landing</Link>
     </li>
-    <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+    <li className="nav-item">
+      <Link to={ROUTES.SIGN_IN} className="nav-link">Sign In</Link>
     </li>
   </ul>
 )
