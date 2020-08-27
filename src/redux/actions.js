@@ -1,10 +1,14 @@
 import axios from 'axios';
+import moment from 'moment-timezone';
 
 import { GET_LIFEPOINTS_SUCCESS, SAVE_LIFEPOINT_SUCCESS } from './actionTypes';
 
 export const getUserLifePoints = (data) => {
+  const timezone = moment.tz.guess();
+  const startDate = moment.tz(timezone).startOf('day').valueOf();
+  const endDate = moment.tz(timezone).endOf('day').valueOf();
   return async (dispatch) => {
-    const response = await axios.get(`https://s0ca9ntqik.execute-api.us-east-1.amazonaws.com/test/lifepoints?userId=${data.userId}`);
+    const response = await axios.get(`https://s0ca9ntqik.execute-api.us-east-1.amazonaws.com/test/lifepoints?userId=${data.userId}&startDate=${startDate}&endDate=${endDate}`);
     console.log('response', response);
     return dispatch(getLifePointsSuccess(response));
   }
