@@ -6,14 +6,8 @@ import { withAuthorization } from '../Session';
 
 const HomePage = () => (
   <div className="container m-2">
-    <div className="row">
-      <div className="col">
-        <LifePointForm />
-      </div>
-      <div className="col">
-        <UserLifePoints />
-      </div>
-    </div>
+    <UserLifePoints />
+    <LifePointForm />
   </div>
 );
 

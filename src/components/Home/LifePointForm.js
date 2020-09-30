@@ -10,7 +10,7 @@ class LifePointForm extends React.Component {
     this.state = {
       name: '',
       description: '',
-      category: '',
+      category: 'EXERCISE',
       points: 1
     };
     this.handleChange = this.handleChange.bind(this);
@@ -19,6 +19,11 @@ class LifePointForm extends React.Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleNumberChange = (event) => {
+    console.log('handleNumber', event.target.valueAsNumber, event.target.value);
+    this.setState({ [event.target.name]: event.target.valueAsNumber || event.target.value });
   };
 
   handleSubmit = (authUser) => {
@@ -30,7 +35,7 @@ class LifePointForm extends React.Component {
       points: this.state.points
     };
     this.props.saveLifePoint(data);
-    this.setState({ name: '', description: '', category: null, points: 1 });
+    this.setState({ name: '', description: '', category: 'EXERCISE', points: 1 });
   };
 
   render = () => {
@@ -67,7 +72,7 @@ class LifePointForm extends React.Component {
               <div className="col">
                 Points:
               </div>
-              <input name='points' type='number' value={this.state.points} onChange={this.handleChange} className="col-8" />
+              <input name='points' type='number' value={this.state.points} onChange={this.handleNumberChange} className="col-8" />
             </div>
             <div className="row mt-4">
               <button onClick={() => this.handleSubmit(authUser)} className="btn btn-primary col-12">
