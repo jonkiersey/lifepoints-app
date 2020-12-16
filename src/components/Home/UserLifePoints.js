@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import cloneDeep from 'lodash.clonedeep';
 import moment from 'moment';
 import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css';
@@ -22,7 +23,7 @@ class UserLifePoints extends React.Component {
   }
 
   transformDataForChart = () => {
-    const chartData = [
+    const emptyChartData = [
       {
         data: {
           PERSONAL_DEVELOPMENT: 0,
@@ -32,26 +33,67 @@ class UserLifePoints extends React.Component {
           RELATIONSHIP: 0
         },
         meta: { color: 'blue'}
+      },
+      {
+        data: {
+          PERSONAL_DEVELOPMENT: 0,
+          EXERCISE: 0,
+          HOUSEHOLD: 0,
+          SOCIAL: 0,
+          RELATIONSHIP: 0
+        },
+        meta: { color: 'red'}
+      },
+      {
+        data: {
+          PERSONAL_DEVELOPMENT: 0,
+          EXERCISE: 0,
+          HOUSEHOLD: 0,
+          SOCIAL: 0,
+          RELATIONSHIP: 0
+        },
+        meta: { color: 'green'}
+      },
+      {
+        data: {
+          PERSONAL_DEVELOPMENT: 0,
+          EXERCISE: 0,
+          HOUSEHOLD: 0,
+          SOCIAL: 0,
+          RELATIONSHIP: 0
+        },
+        meta: { color: 'purple'}
       }
     ];
 
-    console.log('lifepoints', this.props.userLifePoints);
+    const oneMonthAgo = moment.tz(moment.tz.guess()).endOf('day').subtract(1, 'month').valueOf();
+    const oneWeekAgo = moment.tz(moment.tz.guess()).endOf('day').subtract(1, 'week').valueOf();
+    const startOfDay = moment.tz(moment.tz.guess()).endOf('day').subtract(1, 'week').valueOf();
 
-    console.log('chart data 0', chartData[0]);
+    // creating array of form [all life points, last month of points, last week of points, today's points]
+    const pointsByTimeRange = [this.props.userLifePoints];
+    pointsByTimeRange[1] = pointsByTimeRange[0].filter((point) => point.datetime > oneMonthAgo);
+    pointsByTimeRange[2] = pointsByTimeRange[1].filter((point) => point.datetime > oneWeekAgo);
+    pointsByTimeRange[3] = pointsByTimeRange[2].filter((point) => point.datetime > startOfDay);
 
-    const sums = this.props.userLifePoints.reduce(
-      (accumulator, currentValue) => {
-        accumulator[currentValue.category] ? accumulator[currentValue.category] += currentValue.points : accumulator[currentValue.category] = currentValue.points;
-        return accumulator;
-      }, chartData[0].data);
+    console.log('pointsByTimeRange', pointsByTimeRange[0].filter((point) => point > oneMonthAgo));
 
-    const maxPoints = Math.max(...Object.values(chartData[0].data));
+    const points = pointsByTimeRange.map((points, i) => {
+      console.log('points', points)
+      const sums = points.reduce((acc, cur) => {
+        const toAdd = parseInt(cur.points, 10);
+        acc[cur.category] ? acc[cur.category] += toAdd : acc[cur.category] = toAdd;
+        return acc;
+      }, cloneDeep(emptyChartData[i].data));
+      console.log('sums', sums)
+      const maxPoints = Math.max(...Object.values(sums));
+      console.log(maxPoints);
+      Object.keys(sums).forEach((key) => maxPoints ? sums[key] = sums[key] / maxPoints : 0);
+      return sums;
+    });
 
-    console.log({ maxPoints });
-
-    Object.keys(chartData[0].data).forEach((key) => chartData[0].data[key] = sums[key] / maxPoints);
-
-    console.log({ chartData });
+    const chartData = cloneDeep(emptyChartData).map((item, index) => ({ data: points[index], meta: item.meta }));
+    console.log('chartData', chartData);
     return chartData;
   }
 

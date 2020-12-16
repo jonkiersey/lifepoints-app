@@ -1,5 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
+import moment from 'moment';
 
 import { AuthUserContext } from '../Session';
 import { saveLifePoint } from '../../redux/actions';
@@ -11,7 +15,8 @@ class LifePointForm extends React.Component {
       name: '',
       description: '',
       category: 'EXERCISE',
-      points: 1
+      points: 1,
+      datetime: moment.now().valueOf()
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,8 +27,11 @@ class LifePointForm extends React.Component {
   };
 
   handleNumberChange = (event) => {
-    console.log('handleNumber', event.target.valueAsNumber, event.target.value);
     this.setState({ [event.target.name]: event.target.valueAsNumber || event.target.value });
+  };
+
+  handleTimeChange = (date) => {
+    this.setState({ datetime: moment(date).valueOf() });
   };
 
   handleSubmit = (authUser) => {
@@ -32,7 +40,8 @@ class LifePointForm extends React.Component {
       name: this.state.name,
       description: this.state.description,
       category: this.state.category,
-      points: this.state.points
+      points: this.state.points,
+      datetime: this.state.datetime
     };
     this.props.saveLifePoint(data);
     this.setState({ name: '', description: '', category: 'EXERCISE', points: 1 });
@@ -73,6 +82,18 @@ class LifePointForm extends React.Component {
                 Points:
               </div>
               <input name='points' type='number' value={this.state.points} onChange={this.handleNumberChange} className="col-8" />
+            </div>
+            <div className="row m-2">
+              <div className="col">
+                Date and Time:
+              </div>
+              <div className="col-8">
+                <DatePicker
+                  selected={this.state.datetime}
+                  onChange={this.handleTimeChange}
+                  showTimeSelect
+                />
+              </div>
             </div>
             <div className="row mt-4">
               <button onClick={() => this.handleSubmit(authUser)} className="btn btn-primary col-12">
